@@ -16,7 +16,7 @@ def validate(dict, schema):
     
 
     for tuple in list_of_schema:
-        if tuple[0] not in dict:
+        if tuple[0] not in dict.keys():
             return False
 
     for tuple in list_of_dict:
