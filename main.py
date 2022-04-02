@@ -11,35 +11,36 @@ schema = {
 }
 
 def validate(dict, schema):
-    list_of_dict = dict.items()
-    list_of_schema = schema.items()
-    
+    dict_keys = list(dict.keys())
+    schema_keys = list(schema.keys())
 
-    for tuple in list_of_schema:
-        if tuple[0] not in dict.keys():
-            return False
-
-    for tuple in list_of_dict:
-
+    # dict_values = dict.values()
+    # schema_values = schema.values
+    c = 0
+    for key in schema_keys:
         
-        if schema[tuple[0]]:
-            value = schema[tuple[0]]
+        if dict[key] or dict[key]==False:
+            dict_value = dict[key]
+            schema_value = schema[key]
+            if schema_value['type'] == 'string':
+                if not isinstance(dict_value, str):
+                    return False
+                if len(dict_value) < schema_value['min'] or len(dict_value) > schema_value['max']:
+                    return False
+            if schema_value['type'] == 'integer':
+                if not isinstance(dict_value, int):
+                    return False
+                if dict_value > schema_value['max'] or dict_value< schema_value['min']:
+                    return False
+            if schema_value['type'] == 'boolean':
+                if not isinstance(dict_value, bool):
+                    return False
+                if dict_value != schema_value['value']:
+                    return False
 
-            if value['type'] == 'string':
-                if not isinstance(tuple[1], str):
-                    return False
-                if len(tuple[1]) < value['min'] or len(tuple[1]) > value['max']:
-                    return False
-            if value['type'] == 'integer':
-                if not isinstance(tuple[1], int):
-                    return False
-                if tuple[1] < value['min'] or tuple[1] > value['max']:
-                    return False
-            if value['type'] == 'boolean':
-                if not isinstance(tuple[1], bool):
-                    return False
-                if tuple[1] != value['value']:
-                    return False
+        if key not in dict_keys:
+    
+            return False
     return True
 
 print(validate(dict1, schema))      
