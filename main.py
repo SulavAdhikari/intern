@@ -7,15 +7,24 @@ dict1 = {
 schema = {
     'name':{'type':'string',"min":0, 'max':20},
     'age':{'type':'integer','min':10, 'max':30},
-    'isGraduated':{'type':'boolean', 'value':False}
+    'isGraduated':{'type':'boolean', 'value':False},
 }
 
 def validate(dict, schema):
     list_of_dict = dict.items()
+    list_of_schema = schema.items()
+    
+
+    for tuple in list_of_schema:
+        if tuple[0] not in dict:
+            return False
 
     for tuple in list_of_dict:
-        value = schema[tuple[0]]
-        if value:
+
+        
+        if schema[tuple[0]]:
+            value = schema[tuple[0]]
+
             if value['type'] == 'string':
                 if not isinstance(tuple[1], str):
                     return False
