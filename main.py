@@ -1,22 +1,36 @@
+dict1 = {
+    'name':'sulav adhikari',
+    'age':16,
+    'isGraduated': False
+}
 
+schema = {
+    'name':{'type':'string',"min":0, 'max':20},
+    'age':{'type':'integer','min':10, 'max':30},
+    'isGraduated':{'type':'boolean', 'value':False}
+}
 
-# first lets take the part of rules as variables and also the dict
-def is_valid(dict, max_len,min_len,max_val,min_val,boolval):
-    #get the dict as list of tuples
-    values = dict.items()
-    #every field in dict is now a tuple 
-    #
-    for value in values:
-        if isinstance(value[1], str):
-            if len(value[1])>max_len or len(value[1])<min_len:
-                return False
-        if isinstance(value[1], int):
-            if value[1]>max_val or value[1]<min_val:
-                return False
-        if isinstance(value[1], bool):
-            if boolval != value[1]:
-                return False
+def validate(dict, schema):
+    list_of_dict = dict.items()
+
+    for tuple in list_of_dict:
+        value = schema[tuple[0]]
+        if value:
+            if value['type'] == 'string':
+                if not isinstance(tuple[1], str):
+                    return False
+                if len(tuple[1]) < value['min'] or len(tuple[1]) > value['max']:
+                    return False
+            if value['type'] == 'integer':
+                if not isinstance(tuple[1], int):
+                    return False
+                if tuple[1] < value['min'] or tuple[1] > value['max']:
+                    return False
+            if value['type'] == 'boolean':
+                if not isinstance(tuple[1], bool):
+                    return False
+                if tuple[1] != value['value']:
+                    return False
     return True
 
-
-
+print(validate(dict1, schema))      
