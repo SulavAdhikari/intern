@@ -19,7 +19,7 @@ def validate(dict, schema):
     c = 0
     for key in schema_keys:
         
-        if dict[key] or dict[key]==False:
+        if key in dict:
             dict_value = dict[key]
             schema_value = schema[key]
             if schema_value['type'] == 'string':
@@ -39,7 +39,6 @@ def validate(dict, schema):
                     return False
 
         if key not in dict_keys:
-    
             return False
     return True
 
